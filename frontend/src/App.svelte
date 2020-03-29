@@ -1,10 +1,27 @@
 <script>
-	export let name;
+	import { Router, Link, Route } from "svelte-routing";
+	import home from "./pages/home.svelte";
+	import activeServers from "./pages/activeServers.svelte";
+	import newServer from "./pages/newServer.svelte";
+
+	export let url = "";
+
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<Router url="{url}">
+	<h1>VPN Switcher</h1>
+	<nav>
+		<Link to="/">home</Link>
+		<Link to="activeServers">activeServers</Link>
+		<Link to="newServer">newServer</Link>
+	</nav>
+	<div class="page">
+		<Route path="newServer" component="{newServer}" />
+		<Route path="activeServers" component="{activeServers}" />
+		<Route path="/" component="{home}"></Route>
+	</div>
+	</Router>
 </main>
 
 <style>
