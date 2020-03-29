@@ -8,8 +8,8 @@ const serverController = require('./controllers/serverController')
 
 const authMiddleware = require('./middleware/authMiddleware')
 
-router.get('/get-companies', authMiddleware.verifyToken, serverController.getCompanies)
-router.post('/save-company', upload.none(), authMiddleware.verifyToken, serverController.saveCompany)
-router.delete('/remove-company/:companyId', authMiddleware.verifyToken, serverController.removeCompany)
+router.get('/get-servers', authMiddleware.verifyToken, serverController.getServerlist)
+router.post('/start-company', upload.none(), authMiddleware.verifyToken, serverController.startServer)
+router.delete('/shutdown-server/:serverId', authMiddleware.verifyToken, serverController.shutdownServer)
 
 module.exports = router;
