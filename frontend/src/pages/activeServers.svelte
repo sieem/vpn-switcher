@@ -14,8 +14,8 @@
 
 
 <ul>
-	{#each activerServers as { id }, i}
-		<li>{id} <button on:click={deleteServer(id)}>Delete</button></li>
+	{#each activerServers as { SUBID, label, location }, i}
+		<li>{SUBID} {label} {location} <button on:click={deleteServer(SUBID)}>Delete</button></li>
 	{/each}
 </ul>
 
