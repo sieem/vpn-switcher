@@ -6,9 +6,11 @@ export class ApiService {
         return await response.json();
     }
 
-    async startServer() {
+    async startServer(data) {
         const response = await fetch(`${baseUrl}/api/server`, {
-            method: 'post'
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
         });
         return await response.json();
     }

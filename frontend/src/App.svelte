@@ -24,6 +24,9 @@
 	</Router>
 </main>
 
+<svelte:component this={newServer}  />
+<svelte:component this={activeServers}  />
+
 <style>
 	main {
 		text-align: center;
