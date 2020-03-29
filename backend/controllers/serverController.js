@@ -1,4 +1,4 @@
-const serverService = require('./services/serverService')
+const serverService = require('../services/serverService')
 
 exports.startServer = (req, res) => {
     res.status(400).json("")
