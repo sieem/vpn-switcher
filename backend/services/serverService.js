@@ -1,0 +1,3 @@
+exports.generateToken = () => {
+    return null
+}
