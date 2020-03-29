@@ -1,17 +1,32 @@
 <script>
     import { ApiService } from '../services/api.service';
     const api = new ApiService();
-    let activerServers = [];
+    let serverLocations = [];
     let promise;
+    let selected = 0;
+
+    (async function() {
+        serverLocations = await api.getServerLocations();
+    })();
 
     function handleClick() {
-        promise = api.startServer({test:"test"});
+        console.log( serverLocations[selected])
+        promise = api.startServer({
+            DCID: serverLocations[selected].DCID,
+            location: serverLocations[selected].name,
+        });
     }
 </script>
 
-<button on:click={handleClick}>
-	Generate new server
-</button>
+<select bind:value={selected}>
+    {#each serverLocations as { name }, i}
+        <option value={i}>
+            {name}
+        </option>
+    {/each}
+</select>
+
+<button on:click={handleClick}>Generate new server</button>
 
 {#await promise}
 	<p>...waiting</p>
