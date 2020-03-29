@@ -3,6 +3,15 @@ const rp = require('request-promise');
 const serverService = require('../services/serverService')
 const headers = {'API-Key': process.env.VULTR_API_KEY};
 
+exports.getServerlist = async (req, res) => {
+    try {
+        const { data } = await axios.get('https://api.vultr.com/v1/server/list', { headers })
+        res.status(200).json(Object.values(data))
+    } catch (error) {
+        res.status(400).text(error)
+    }
+}
+
 exports.createServer = async (req, res) => {
     const { DCID, location } = req.body;
     const { SSHKEYID } = await serverService.getSshkeyList()
@@ -49,14 +58,4 @@ exports.getServerLocations = async (req, res) => {
     } catch (error) {
         res.status(400).text(error)
     }
-}
-
-exports.getServerlist = async (req, res) => {
-    try {
-        const { data } = await axios.get('https://api.vultr.com/v1/server/list', {headers})
-        res.status(200).json(Object.values(data))
-    } catch (error) {
-        res.status(400).text(error)
-    }
-    
 }

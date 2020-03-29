@@ -1,11 +1,6 @@
 const baseUrl = "http://localhost:3000";
 export class ApiService {
 
-    async getServerLocations() {
-        const response = await fetch(`${baseUrl}/api/locations`);
-        return await response.json();
-    }
-
     async getServerlist() {
         const response = await fetch(`${baseUrl}/api/servers`);
         return await response.json();
@@ -26,6 +21,11 @@ export class ApiService {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
+        return await response.json();
+    }
+
+    async getServerLocations() {
+        const response = await fetch(`${baseUrl}/api/locations`);
         return await response.json();
     }
 } 
