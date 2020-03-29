@@ -6,8 +6,8 @@
     (async function() {
         activerServers = await api.getServerlist();
     })();
-    async function deleteServer(id) {
-        await api.deleteServer({id});
+    async function deleteServer(SUBID) {
+        await api.deleteServer({SUBID});
         activerServers = await api.getServerlist();
     }
 </script>

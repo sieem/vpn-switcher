@@ -26,8 +26,20 @@ exports.createServer = async (req, res) => {
 }
 
 exports.deleteServer = async (req, res) => {
-    console.log(req.body)
-    res.status(200).json("")
+    const { SUBID } = req.body;
+
+    try {
+        const response = await rp({
+            method: 'POST',
+            url: 'https://api.vultr.com/v1/server/destroy',
+            headers,
+            formData: { SUBID }
+        });
+
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(400).json(error)
+    }
 }
 
 exports.getServerLocations = async (req, res) => {
