@@ -15,9 +15,11 @@ export class ApiService {
         return await response.json();
     }
 
-    async shutdownServer() {
+    async deleteServer(data) {
         const response = await fetch(`${baseUrl}/api/server`, {
-            method: 'delete'
+            method: 'delete',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
         });
         return await response.json();
     }
