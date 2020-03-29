@@ -17,7 +17,7 @@ exports.shutdownServer = async (req, res) => {
 exports.getServerlist = async (req, res) => {
     try {
         const { data } = await axios.get('https://api.vultr.com/v1/server/list', {headers})
-        res.status(200).json(data)
+        res.status(200).json(Object.values(data))
     } catch (error) {
         res.status(400).text(error)
     }
