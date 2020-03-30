@@ -1,7 +1,11 @@
 const axios = require('axios')
 const rp = require('request-promise');
+const fs = require("fs-extra")
 const serverService = require('../services/serverService')
+
 const headers = {'API-Key': process.env.VULTR_API_KEY};
+const node_ssh = require('node-ssh');
+const vpnFilename = 'VPNswitcher.ovpn';
 
 exports.getServerlist = async (req, res) => {
     try {
@@ -50,6 +54,37 @@ exports.deleteServer = async (req, res) => {
         res.status(400).json(error)
     }
 }
+
+exports.getConnectionFile = async (req, res) => {
+    console.log(req.params, req.body)
+    const { SUBID } = req.params;
+    try {
+        const { data } = await axios.get(`https://api.vultr.com/v1/server/list?SUBID=${SUBID}`, { headers })
+        const { main_ip, default_password } = data;
+
+        const ssh = new node_ssh();
+
+        await ssh.connect({
+            host: main_ip,
+            username: 'root',
+            password: default_password
+        })
+
+        const localPath = `${process.cwd()}/${vpnFilename}`;
+        await ssh.getFile(localPath, `${vpnFilename}`);
+
+        // const vpnFile = fs.readFileSync(localPath, 'utf8');
+        // fs.removeSync(localPath);
+        return res.status(200).download(localPath)
+    } catch (error) {
+        console.log(error)
+        if (error.code == 2) {
+            return res.status(404).send("No such file")
+        }
+        return res.status(400).send(error)
+    }
+
+} 
 
 exports.getServerLocations = async (req, res) => {
     try {

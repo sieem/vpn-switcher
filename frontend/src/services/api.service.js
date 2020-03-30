@@ -28,4 +28,12 @@ export class ApiService {
         const response = await fetch(`${baseUrl}/api/locations`);
         return await response.json();
     }
+
+    async getConnectionFile(data) {
+        const response = await fetch(`${baseUrl}/api/server/connection-file/${data.SUBID}`);
+        if (response.status === 404) {
+            throw await 'File not found'
+        }
+        return await response.blob();
+    }
 } 
