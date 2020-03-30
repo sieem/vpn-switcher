@@ -31,7 +31,8 @@ exports.createServer = async (req, res) => {
             OSID: 270,
             notify_activate: 'false',
             label: `VPS - ${location}`,
-            SCRIPTID: '716260'
+            SCRIPTID: '716260',
+            notify_activate: 'false'
         }
     }));
 
