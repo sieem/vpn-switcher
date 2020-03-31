@@ -3,6 +3,10 @@
 	import home from "./pages/home.svelte";
 	import activeServers from "./pages/activeServers.svelte";
 	import newServer from "./pages/newServer.svelte";
+	import login from "./pages/login.svelte";
+
+	import auth from './services/auth.service';
+
 
 	export let url = "";
 
@@ -24,8 +28,12 @@
 	</Router>
 </main>
 
-<svelte:component this={newServer}  />
-<svelte:component this={activeServers}  />
+{#if !auth.loggedIn()}
+	<svelte:component this={login}  />
+{:else}
+	<svelte:component this={newServer}  />
+	<svelte:component this={activeServers}  />
+{/if}
 
 <style>
 	main {
