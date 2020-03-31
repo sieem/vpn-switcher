@@ -1,4 +1,7 @@
+import auth from './auth.service';
+
 const baseUrl = "http://localhost:3000";
+const authHeaders = auth.loggedIn() ? { Authorization: 'bearer ' + auth.getToken() } : {}
 export default {
 
     async login(data) {
@@ -14,14 +17,14 @@ export default {
     },
 
     async getServerlist() {
-        const response = await fetch(`${baseUrl}/api/servers`);
+        const response = await fetch(`${baseUrl}/api/servers`, {headers: authHeaders});
         return await response.json();
     },
 
     async startServer(data) {
         const response = await fetch(`${baseUrl}/api/server`, {
             method: 'post',
-            headers: {'Content-Type': 'application/json'},
+            headers: {...authHeaders, 'Content-Type': 'application/json'},
             body: JSON.stringify(data)
         });
         return await response.json();
@@ -30,7 +33,7 @@ export default {
     async deleteServer(data) {
         const response = await fetch(`${baseUrl}/api/server`, {
             method: 'delete',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { ...authHeaders, 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
         return await response.json();
@@ -42,7 +45,7 @@ export default {
     },
 
     async getConnectionFile(data) {
-        const response = await fetch(`${baseUrl}/api/server/connection-file/${data.SUBID}`);
+        const response = await fetch(`${baseUrl}/api/server/connection-file/${data.SUBID}`, {headers: authHeaders});
         if (response.status === 404) {
             throw await 'File not found'
         }
