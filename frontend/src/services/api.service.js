@@ -1,6 +1,18 @@
 const baseUrl = "http://localhost:3000";
 export default {
 
+    async login(data) {
+        const response = await fetch(`${baseUrl}/api/login`, {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+            throw await response.json()
+        }
+        return await response.json();
+    },
+
     async getServerlist() {
         const response = await fetch(`${baseUrl}/api/servers`);
         return await response.json();
