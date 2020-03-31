@@ -1,5 +1,5 @@
 {
-  "name": "infiltro-planning-api",
+  "name": "vpn-switcher",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sieem/infiltro-planning-api.git"
+    "url": "git+https://github.com/sieem/vpn-switcher.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sieem/infiltro-planning-api/issues"
+    "url": "https://github.com/sieem/vpn-switcher/issues"
   },
-  "homepage": "https://github.com/sieem/infiltro-planning-api#readme",
+  "homepage": "https://github.com/sieem/vpn-switcher#readme",
   "dependencies": {
     "axios": "^0.19.0",
     "bcrypt": "^3.0.6",
