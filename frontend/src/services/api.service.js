@@ -1,10 +1,10 @@
-const baseUrl = "";
-export class ApiService {
+const baseUrl = "http://localhost:3000";
+export default {
 
     async getServerlist() {
         const response = await fetch(`${baseUrl}/api/servers`);
         return await response.json();
-    }
+    },
 
     async startServer(data) {
         const response = await fetch(`${baseUrl}/api/server`, {
@@ -13,7 +13,7 @@ export class ApiService {
             body: JSON.stringify(data)
         });
         return await response.json();
-    }
+    },
 
     async deleteServer(data) {
         const response = await fetch(`${baseUrl}/api/server`, {
@@ -22,12 +22,12 @@ export class ApiService {
             body: JSON.stringify(data)
         });
         return await response.json();
-    }
+    },
 
     async getServerLocations() {
         const response = await fetch(`${baseUrl}/api/locations`);
         return await response.json();
-    }
+    },
 
     async getConnectionFile(data) {
         const response = await fetch(`${baseUrl}/api/server/connection-file/${data.SUBID}`);
@@ -36,4 +36,4 @@ export class ApiService {
         }
         return await response.blob();
     }
-} 
+}

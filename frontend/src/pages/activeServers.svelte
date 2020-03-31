@@ -1,6 +1,5 @@
 <script>
-    import { ApiService } from '../services/api.service';
-    const api = new ApiService();
+    import api from '../services/api.service';
     let activerServers = [];
 
     (async function() {
