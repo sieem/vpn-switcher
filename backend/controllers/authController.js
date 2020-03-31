@@ -11,7 +11,7 @@ exports.login = (req, res) => {
         if (!compareValid) {
             return res.status(401).json({ error: 'Invalid Password' })
         } else {
-            const payload = 'dit is random payload'
+            const payload = process.env.JWTPAYLOAD
             const token = jwt.sign(payload, secretKey)
             return res.status(200).json({ token })
         }

@@ -10,7 +10,7 @@ exports.verifyToken = (req, res, next) => {
         return res.status(401).json({ error: 'Unauthorized request'})
     }
     const payload = jwt.verify(token, secretKey)
-    if (!payload) {
+    if (!payload && payload == process.env.JWTPAYLOAD) {
         return res.status(401).json({ error: 'Unauthorized request'})
     }
     next()
