@@ -6,10 +6,10 @@ exports.login = (req, res) => {
     bcrypt.compare(req.body.password, process.env.PASSWORD, (err, compareValid) => {
         if (err) {
             console.error(err)
-            return res.status(400).json(err.message)
+            return res.status(400).json({ error: err.message })
         }
         if (!compareValid) {
-            return res.status(401).json({error: 'Invalid Password'})
+            return res.status(401).json({ error: 'Invalid Password' })
         } else {
             const payload = 'dit is random payload'
             const token = jwt.sign(payload, secretKey)
