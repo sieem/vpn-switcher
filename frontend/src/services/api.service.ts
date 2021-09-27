@@ -1,7 +1,13 @@
-import auth from './auth.service';
+import { getToken, loggedIn } from './auth.service';
 
 const baseUrl = "http://localhost:3000";
-const authHeaders = auth.loggedIn() ? { Authorization: 'bearer ' + auth.getToken() } : {}
+
+let authHeaders = {};
+
+loggedIn.subscribe(_loggedIn => {
+    authHeaders = _loggedIn ? { Authorization: 'bearer ' + getToken() } : {}
+});
+
 export default {
 
     async login(data) {

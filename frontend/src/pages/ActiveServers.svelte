@@ -1,13 +1,15 @@
 <script lang="ts">
+    import { writable } from 'svelte/store';
     import api from '../services/api.service';
-    let activerServers = [];
+
+    let activerServers = writable([]);
 
     (async function() {
-        activerServers = await api.getServerlist();
+        activerServers.set(await api.getServerlist());
     })();
     async function deleteServer(SUBID) {
         await api.deleteServer({SUBID});
-        activerServers = await api.getServerlist();
+        activerServers.set(await api.getServerlist());
     }
     async function getConnectionFile(SUBID) {
         try {
@@ -26,8 +28,8 @@
 
 
 <ul>
-	{#each activerServers as { SUBID, label, location }, i}
-		<li>{SUBID} {label} {location} <button on:click={getConnectionFile(SUBID)}>getFile</button> <button on:click={deleteServer(SUBID)}>Delete</button></li>
+	{#each $activerServers as { SUBID, label, location }}
+		<li>{SUBID} {label} {location} <button on:click={() => getConnectionFile(SUBID)}>getFile</button> <button on:click={() => deleteServer(SUBID)}>Delete</button></li>
 	{/each}
 </ul>
 
