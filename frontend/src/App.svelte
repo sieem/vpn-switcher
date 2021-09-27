@@ -1,18 +1,20 @@
 <script lang="ts">
 	import ActiveServers from './pages/ActiveServers.svelte';
-
 	import Login from './pages/Login.svelte';
+	import Logout from './pages/Logout.svelte';
 	import NewServer from './pages/NewServer.svelte';
+	import { loggedIn, setLoginState } from './services/auth.service';
 
-	import auth from './services/auth.service';
+	setLoginState();
 </script>
 
 <main>
 	<h1>VPN Switcher</h1>
 </main>
-{#if !auth.loggedIn()}
+{#if !$loggedIn}
 	<Login />
 {:else}
+	<Logout />
 	<NewServer />
 	<ActiveServers />
 {/if}

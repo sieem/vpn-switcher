@@ -1,6 +1,6 @@
 <script lang="ts">
     import api from '../services/api.service';
-    import auth from '../services/auth.service';
+    import { saveToken } from '../services/auth.service';
     let promise;
     let password;
 
@@ -17,7 +17,7 @@
     async function login() {
         try {
             const response = await api.login({ password });
-            auth.saveToken(response.token);
+            saveToken(response.token);
         } catch (error) {
             throw new Error(error.error)
         }
