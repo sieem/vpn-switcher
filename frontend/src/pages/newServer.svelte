@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import api from '../services/api.service';
     let serverLocations = [];
     let promise;

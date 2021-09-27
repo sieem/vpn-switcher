@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Router, Link, Route } from "svelte-routing";
 	import home from "./pages/home.svelte";
 	import activeServers from "./pages/activeServers.svelte";
