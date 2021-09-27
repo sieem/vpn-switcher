@@ -20,10 +20,8 @@
 		<NewServer />
 		<Logout />
 	</div>
-	<div class="activeServers">
-		<div class="wrapper">
-			<ActiveServers />
-		</div>
+	<div>
+		<ActiveServers />
 	</div>
 {/if}
 
@@ -39,10 +37,5 @@
 	.toolbar {
 		display: grid;
 		grid-template-columns: 1fr 70px;
-	}
-
-	.activeServers {
-        background: #008C6C;
-		color: white;
 	}
 </style>
