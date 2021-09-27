@@ -1,6 +1,6 @@
 import { getToken, loggedIn } from './auth.service';
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = globalThis.isProduction ? '' : 'http://localhost:3000/';
 
 let authHeaders = {};
 
@@ -11,7 +11,7 @@ loggedIn.subscribe(_loggedIn => {
 export default {
 
     async login(data) {
-        const response = await fetch(`${baseUrl}/api/login`, {
+        const response = await fetch(`${baseUrl}api/login`, {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -23,12 +23,12 @@ export default {
     },
 
     async getServerList() {
-        const response = await fetch(`${baseUrl}/api/servers`, {headers: authHeaders});
+        const response = await fetch(`${baseUrl}api/servers`, {headers: authHeaders});
         return await response.json();
     },
 
     async startServer(data) {
-        const response = await fetch(`${baseUrl}/api/server`, {
+        const response = await fetch(`${baseUrl}api/server`, {
             method: 'post',
             headers: {...authHeaders, 'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -37,7 +37,7 @@ export default {
     },
 
     async deleteServer(data) {
-        const response = await fetch(`${baseUrl}/api/server`, {
+        const response = await fetch(`${baseUrl}api/server`, {
             method: 'delete',
             headers: { ...authHeaders, 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -46,12 +46,12 @@ export default {
     },
 
     async getServerLocations() {
-        const response = await fetch(`${baseUrl}/api/locations`);
+        const response = await fetch(`${baseUrl}api/locations`);
         return await response.json();
     },
 
     async getConnectionFile(data) {
-        const response = await fetch(`${baseUrl}/api/server/connection-file/${data.SUBID}`, {headers: authHeaders});
+        const response = await fetch(`${baseUrl}api/server/connection-file/${data.SUBID}`, {headers: authHeaders});
         if (response.status === 404) {
             throw await 'File not found'
         }
