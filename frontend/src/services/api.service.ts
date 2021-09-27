@@ -22,7 +22,7 @@ export default {
         return await response.json();
     },
 
-    async getServerlist() {
+    async getServerList() {
         const response = await fetch(`${baseUrl}/api/servers`, {headers: authHeaders});
         return await response.json();
     },

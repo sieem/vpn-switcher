@@ -1,6 +1,8 @@
 <script lang="ts">
     import api from '../services/api.service';
     import { saveToken } from '../services/auth.service';
+    import Spinner from './Spinner.svelte';
+
     let promise;
     let password;
 
@@ -30,7 +32,7 @@
 <button on:click={handleClick}>Login</button>
 
 {#await promise}
-	<p>...waiting</p>
+	<Spinner />
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}
