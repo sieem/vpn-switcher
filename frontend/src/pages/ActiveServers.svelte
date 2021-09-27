@@ -34,9 +34,12 @@ import Spinner from './Spinner.svelte';
 <ul>
 	{#each $activeServers as { SUBID, label, location }}
 		<li>
-            <div title={SUBID}>{label}</div>
-            <button on:click={() => getConnectionFile(SUBID)}>getFile</button>
-            <button on:click={() => deleteServer(SUBID)}>Delete</button></li>
+            <div class="wrapper">
+                <div title={SUBID}>{label}</div>
+                <button on:click={() => getConnectionFile(SUBID)}>getFile</button>
+                <button on:click={() => deleteServer(SUBID)}>Delete</button>
+            </div>
+        </li>
 	{/each}
 </ul>
 
@@ -46,6 +49,14 @@ import Spinner from './Spinner.svelte';
     }
 
     li {
+        margin-top: 15px;
+        margin-bottom: 15px;
+
+        background: #008C6C;
+		color: white;
+    }
+
+    li .wrapper {
         display: grid;
         grid-template-columns: 1fr 70px 70px;
         align-items: baseline;
