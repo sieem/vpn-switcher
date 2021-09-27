@@ -8,35 +8,41 @@
 	setLoginState();
 </script>
 
-<main>
+<div class="wrapper">
 	<h1>VPN Switcher</h1>
-</main>
+</div>
 {#if !$loggedIn}
-	<Login />
+	<div class="wrapper">
+		<Login />
+	</div>
 {:else}
-	<Logout />
-	<NewServer />
-	<ActiveServers />
+	<div class="wrapper toolbar">
+		<NewServer />
+		<Logout />
+	</div>
+	<div class="activeServers">
+		<div class="wrapper">
+			<ActiveServers />
+		</div>
+	</div>
 {/if}
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
 
 	h1 {
-		color: #ff3e00;
+		color: #BB7561;
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.toolbar {
+		display: grid;
+		grid-template-columns: 1fr 70px;
+	}
+
+	.activeServers {
+        background: #008C6C;
+		color: white;
 	}
 </style>

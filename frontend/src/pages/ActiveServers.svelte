@@ -1,16 +1,15 @@
 <script lang="ts">
-    import { writable } from 'svelte/store';
+    import { activeServers, setActiveServers } from '../services/activeServers.service';
     import api from '../services/api.service';
+import Spinner from './Spinner.svelte';
+    let promise;
 
-    let activerServers = writable([]);
+    setActiveServers();
 
-    (async function() {
-        activerServers.set(await api.getServerlist());
-    })();
-    async function deleteServer(SUBID) {
-        await api.deleteServer({SUBID});
-        activerServers.set(await api.getServerlist());
+    function deleteServer(SUBID) {
+        promise = api.deleteServer({SUBID}).then(() => setActiveServers());
     }
+
     async function getConnectionFile(SUBID) {
         try {
             const connectionFile = await api.getConnectionFile({SUBID});
@@ -26,13 +25,35 @@
     }
 </script>
 
+{#await promise}
+	<Spinner />
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
 
 <ul>
-	{#each $activerServers as { SUBID, label, location }}
-		<li>{SUBID} {label} {location} <button on:click={() => getConnectionFile(SUBID)}>getFile</button> <button on:click={() => deleteServer(SUBID)}>Delete</button></li>
+	{#each $activeServers as { SUBID, label, location }}
+		<li>
+            <div title={SUBID}>{label}</div>
+            <button on:click={() => getConnectionFile(SUBID)}>getFile</button>
+            <button on:click={() => deleteServer(SUBID)}>Delete</button></li>
 	{/each}
 </ul>
 
 <style>
+    ul {
+        padding: 0;
+    }
 
+    li {
+        display: grid;
+        grid-template-columns: 1fr 70px 70px;
+        align-items: baseline;
+        gap: 10px;
+        padding: 15px 0;
+    }
+
+    li button {
+        margin-bottom: 0;
+    }
 </style>

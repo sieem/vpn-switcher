@@ -1,39 +1,45 @@
 <script lang="ts">
+    import { writable } from 'svelte/store';
+    import { setActiveServers } from '../services/activeServers.service';
     import api from '../services/api.service';
-    let serverLocations = [];
+    import Spinner from './Spinner.svelte';
+
+    const serverLocations = writable([]);
     let promise;
     let selected = 0;
 
     (async function() {
-        serverLocations = await api.getServerLocations();
+        serverLocations.set(await api.getServerLocations());
     })();
 
     function handleClick() {
-        console.log( serverLocations[selected])
+        let _serverLocations;
+        serverLocations.subscribe(value => _serverLocations = value)();
+        
         promise = api.startServer({
-            DCID: serverLocations[selected].DCID,
-            location: serverLocations[selected].name,
-        });
+            DCID: _serverLocations[selected].DCID,
+            location: _serverLocations[selected].name,
+        }).then(() => setActiveServers());
     }
 </script>
 
-<select bind:value={selected}>
-    {#each serverLocations as { name }, i}
-        <option value={i}>
-            {name}
-        </option>
-    {/each}
-</select>
+<div>
+    <select bind:value={selected}>
+        {#each $serverLocations as { name }, i}
+            <option value={i}>
+                {name}
+            </option>
+        {/each}
+    </select>
 
-<button on:click={handleClick}>Generate new server</button>
+    <button on:click={handleClick}>Generate new server</button>
 
-{#await promise}
-	<p>...waiting</p>
-{:then number}
-	<p>The number is {number}</p>
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await}
+    {#await promise}
+        <Spinner />
+    {:catch error}
+        <p style="color: red">{error.message}</p>
+    {/await}
+</div>
 
 <style>
 
