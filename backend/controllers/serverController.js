@@ -4,7 +4,7 @@ const fs = require("fs-extra")
 const serverService = require('../services/serverService')
 
 const headers = {'API-Key': process.env.VULTR_API_KEY};
-const node_ssh = require('node-ssh');
+const { NodeSSH } = require('node-ssh');
 const vpnFilename = 'VPNswitcher.ovpn';
 
 exports.getServerlist = async (req, res) => {
@@ -57,13 +57,12 @@ exports.deleteServer = async (req, res) => {
 }
 
 exports.getConnectionFile = async (req, res) => {
-    console.log(req.params, req.body)
     const { SUBID } = req.params;
     try {
         const { data } = await axios.get(`https://api.vultr.com/v1/server/list?SUBID=${SUBID}`, { headers })
         const { main_ip, default_password } = data;
 
-        const ssh = new node_ssh();
+        const ssh = new NodeSSH();
 
         await ssh.connect({
             host: main_ip,
