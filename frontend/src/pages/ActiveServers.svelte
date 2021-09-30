@@ -1,8 +1,9 @@
 <script lang="ts">
     import { activeServers, setActiveServers } from '../services/activeServers.service';
     import api from '../services/api.service';
-import Spinner from './Spinner.svelte';
-    let promise;
+    import Spinner from './Spinner.svelte';
+    let promise: Promise<void>;
+    let downloadError: string;
 
     setActiveServers();
 
@@ -11,6 +12,7 @@ import Spinner from './Spinner.svelte';
     }
 
     async function getConnectionFile(SUBID) {
+        downloadError = null;
         try {
             const connectionFile = await api.getConnectionFile({SUBID});
             const url = window.URL.createObjectURL(connectionFile);
@@ -20,7 +22,7 @@ import Spinner from './Spinner.svelte';
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            alert(error)
+            downloadError = error;
         }
     }
 </script>
@@ -32,11 +34,20 @@ import Spinner from './Spinner.svelte';
 {/await}
 
 <ul>
+    {#if downloadError}
+        <li class="error">
+            <div class="wrapper">
+                <div>{downloadError}</div>
+                <div></div>
+                <button on:click={() => downloadError = null}>Close</button>
+            </div>
+        </li>
+    {/if}
 	{#each $activeServers as { SUBID, label, location }}
 		<li>
             <div class="wrapper">
                 <div title={SUBID}>{label}</div>
-                <button on:click={() => getConnectionFile(SUBID)}>getFile</button>
+                <button on:click={() => getConnectionFile(SUBID)}>Get OpenVPN File</button>
                 <button on:click={() => deleteServer(SUBID)}>Delete</button>
             </div>
         </li>
@@ -58,7 +69,7 @@ import Spinner from './Spinner.svelte';
 
     li .wrapper {
         display: grid;
-        grid-template-columns: 1fr 70px 70px;
+        grid-template-columns: 1fr 150px 70px;
         align-items: baseline;
         gap: 10px;
         padding: 15px 0;
@@ -66,5 +77,9 @@ import Spinner from './Spinner.svelte';
 
     li button {
         margin-bottom: 0;
+    }
+
+    .error {
+        background-color: #BB7561;
     }
 </style>

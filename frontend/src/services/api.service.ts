@@ -52,8 +52,8 @@ export default {
 
     async getConnectionFile(data) {
         const response = await fetch(`${baseUrl}api/server/connection-file/${data.SUBID}`, {headers: authHeaders});
-        if (response.status === 404) {
-            throw await 'File not found'
+        if (response.status !== 200) {
+            throw 'OpenVPN file not found yet, server is still building'
         }
         return await response.blob();
     }
